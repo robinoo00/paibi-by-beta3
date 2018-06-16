@@ -38,6 +38,7 @@ export default {
     effects: {
         * order({direction, price = 0,num = 0}, {call, put, select}) {
             const price_type = yield select(state => state.trade.price_type);
+            const limit_price = yield select(state => state.trade.limit_price);
             const code = yield select(state => state.trade.code);
             if(num === 0){
                 num = yield select(state => state.trade.num);
@@ -46,7 +47,7 @@ export default {
                 symbol: code,
                 Buysell: direction,
                 Qty: num,
-                Price:price,
+                Price:price_type === 1 ? price : limit_price,
                 Ordertype: price_type === 1 ? "市价" : "限价"
             }
             const {data} = yield call(TradeServices.order, post_data);
@@ -87,7 +88,7 @@ export default {
                 } else {
                     yield put({
                         type: 'order',
-                        direction: direction === 0 ? 1 : 0,
+                        direction: direction === 0 ? "卖出" : "买入",
                         num:data.手数
                     })
                 }

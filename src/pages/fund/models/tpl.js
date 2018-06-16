@@ -33,7 +33,7 @@ export default {
             if(data){
                 yield put({
                     type:'assignList',
-                    data:data,
+                    data:data.data,
                     page:page
                 })
             }

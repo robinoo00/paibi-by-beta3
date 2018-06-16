@@ -32,7 +32,7 @@ class Btns extends React.Component {
         return (
             <Flex styleName="wrap">
                 <Flex.Item styleName="buy"
-                           onClick={rest.price_type === 1 ? rest.ifSwitch('确定买入？', rest.buy()) : rest.limitOrder('买入' + rest.num + '手', rest.buy(rest.data.最新价))}>
+                           onClick={rest.price_type === 1 ? rest.ifSwitch('确定买入？', rest.buy()) : rest.limitOrder('买入' + rest.num + '手',rest.data.最新价, rest.buy())}>
                     买 {rest.data.买价}
                 </Flex.Item>
                 <Flex.Item styleName="ping"
@@ -40,7 +40,7 @@ class Btns extends React.Component {
                     平仓 {rest.ping_num}手
                 </Flex.Item>
                 <Flex.Item styleName="sell"
-                           onClick={rest.price_type === 1 ? rest.ifSwitch('确定卖出？', rest.sell()) : rest.limitOrder('卖出' + rest.num + '手', rest.sell(rest.data.最新价))}>
+                           onClick={rest.price_type === 1 ? rest.ifSwitch('确定卖出？', rest.sell()) : rest.limitOrder('卖出' + rest.num + '手',rest.data.最新价, rest.sell())}>
                     卖 {rest.data.卖价}
                 </Flex.Item>
             </Flex>
@@ -61,10 +61,11 @@ const mapDispatchToProps = (dispatch, props) => ({
             type: 'trade/getPingNum'
         })
     },
-    limitOrder: (title, callback) => () => {
+    limitOrder: (title,newestPrice, callback) => () => {
+        const buy = title.includes('买') ? true : false;
         prompt(
             title,
-            title.includes('买') ? '买入需低于最新价' : '卖出需高于最新价',
+            buy ? '买入需低于最新价' : '卖出需高于最新价',
             [
                 {text: '取消'},
                 {
@@ -77,8 +78,16 @@ const mapDispatchToProps = (dispatch, props) => ({
                             window.toast('价格不能为空')
                             return;
                         }
+                        if(buy && value > newestPrice){
+                            window.toast('买入需低于最新价')
+                            return;
+                        }
+                        if(!buy && value < newestPrice){
+                            window.toast('卖出需高于最新价')
+                            return;
+                        }
                         dispatch({
-                            type: 'trade2/assignLimitPirce',
+                            type: 'trade/assignLimitPirce',
                             price: value
                         })
                         callback && callback()
@@ -105,10 +114,11 @@ const mapDispatchToProps = (dispatch, props) => ({
         }
     },
     buy: (price=0) => () => {
+        console.log(price);
         window.loading('交易中...', 0);
         dispatch({
             type: 'trade/order',
-            direction: 0,
+            direction: "买入",
             price:price
         })
     },
@@ -116,7 +126,7 @@ const mapDispatchToProps = (dispatch, props) => ({
         window.loading('交易中...', 0);
         dispatch({
             type: 'trade/order',
-            direction: 1,
+            direction: "卖出",
             price:price
         })
     },

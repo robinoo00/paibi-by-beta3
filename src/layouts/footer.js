@@ -8,7 +8,7 @@ import {Flex} from 'antd-mobile'
 const list = [
     {url:'/home',text:'首页',c:'home',ca:'home-active',active:['/','/home']},
     {url:'/tradeList',text:'持仓',c:'hold',ca:'hold-active',active:['/tradeList']},
-    {url:'/discuss',text:'讨论',c:'discuss',ca:'',active:['/discuss']},
+    {url:'/followList',text:'跟随',c:'discuss',ca:'',active:['/followList']},
     {url:'/personal',text:'我的',c:'personal',ca:'personal-active',active:['/personal']},
 ];
 const Footer = ({pathname}) => (

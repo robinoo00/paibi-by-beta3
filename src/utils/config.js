@@ -8,5 +8,10 @@ export default {
     SERVICE_TEL:'15021132515',
     TRADE_SWITCH:'trade_switch',
     PWD_CASH:'pwd_cash',
-    TRADE_CODE:'trade_code'
+    TRADE_CODE:'trade_code',
+    NEW_TITLE:'new_title',
+    NEW_CON:'new_con',
+    NEWS_PROD:'prod',
+    NEWS_SECRET:'secret',
+    FOLLOW_EDIT:'follow_edit'
 }

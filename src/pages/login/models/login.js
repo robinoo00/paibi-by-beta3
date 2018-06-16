@@ -15,13 +15,14 @@ export default {
         password:localStorage.getItem(config.PASSWORD) === null ? '' : localStorage.getItem(config.PASSWORD)
     },
     subscriptions: {
-        // setup({ dispatch, history }) {
-        //     return history.listen(({pathname,query}) => {
-        //         if(pathname === '/login'){
-        //             console.log(localStorage.getItem(config.ACCOUNT));
-        //         }
-        //     })
-        // },
+        setup({ dispatch, history }) {
+            return history.listen(({pathname,query}) => {
+                if(pathname === '/login'){
+                    window.hideAll();
+                    // console.log(localStorage.getItem(config.ACCOUNT));
+                }
+            })
+        },
     },
 
     effects: {

@@ -20,7 +20,6 @@ function toast(text,duration) {
     }, duration)
 }
 function loading(text,duration,mask){
-    alert(duration);
     hideAll();
     if(typeof duration === 'undefined'){
         duration = 1000;

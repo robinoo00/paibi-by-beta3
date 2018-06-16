@@ -1,42 +1,44 @@
 import CSSModules from 'react-css-modules'
 import styles from '../styles/item.less'
 import router from 'umi/router'
+import config from '../../../utils/config'
+import {Flex} from 'antd-mobile'
 
-const Item = () =>(
-    <div styleName="earnings-list-wrap">
+const Item = ({item}) =>(
+    <div styleName="earnings-list-wrap" onClick={() => {router.push({pathname:'leaderDetail',query:{id:item.ID}})}}>
         <div styleName="portrait-wrap">
-            <img styleName="portrait" src="https://digitalsh.oss-cn-shanghai.aliyuncs.com/ueditor/1523418178796001891.png?x-oss-process=image/auto-orient,1" alt=""/>
-            <p>比特出发</p>
+            <img styleName="portrait" src={config.server+'getuserpic?url='+item.头像} alt=""/>
+            <p>{item.昵称}</p>
         </div>
-        <ol styleName="earnings-list-con">
-            <li>
-                <p styleName="earnings-num">
-                    21.42%
+        <Flex styleName="earnings-list-con">
+            <Flex.Item>
+                <p styleName="earnings-num"  className={item.总收益 > 0 ? "up-color" : "down-color"}>
+                    {parseInt(item.总收益)}
                 </p>
                 <p styleName="earnings-list-txt">
-                    总收益率
+                    总收益
                 </p>
-            </li>
-            <li>
-                <p styleName="earnings-num">
-                    21.42%
-                </p>
-                <p styleName="earnings-list-txt">
-                    总收益率
-                </p>
-            </li>
-            <li>
-                <p styleName="earnings-num">
-                    21.42%
+            </Flex.Item>
+            <Flex.Item>
+                <p styleName="earnings-num" className={item.盈利率 > 0 ? "up-color" : "down-color"}>
+                    {item.盈利率}%
                 </p>
                 <p styleName="earnings-list-txt">
-                    总收益率
+                    盈利率
                 </p>
-            </li>
-            <li>
-                <span styleName="follow-btn" onClick={() => router.push('followEdit')}>跟随</span>
-            </li>
-        </ol>
+            </Flex.Item>
+            <Flex.Item>
+                <p styleName="earnings-num" className={item.赢亏比列 > 0 ? "up-color" : "down-color"}>
+                    {item.赢亏比列}%
+                </p>
+                <p styleName="earnings-list-txt">
+                    盈亏比例
+                </p>
+            </Flex.Item>
+            <Flex.Item style={{marginTop:0}} onClick={(e) => {e.stopPropagation();router.push({pathname:'followEdit',query:{id:item.ID,nickname:item.昵称}})}}>
+                <span styleName="follow-btn">跟随</span>
+            </Flex.Item>
+        </Flex>
     </div>
 )
 

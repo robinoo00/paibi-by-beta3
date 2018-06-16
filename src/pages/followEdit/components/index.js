@@ -1,12 +1,19 @@
 import Header from '../../../components/header/header'
 import CSSModules from 'react-css-modules'
 import styles from '../styles/edit.less'
-import {Flex,Button} from 'antd-mobile'
+import {Button, Toast, Modal} from 'antd-mobile'
+import {connect} from 'dva'
+import Ways from './ways'
+import Direct from './direct'
+import Nums from './nums'
+import Multiple from './multiple'
+import {Flex} from 'antd-mobile'
 
-export default CSSModules(() => (
+const Edit = ({...rest}) => (
     <div>
         <Header
             title={'编辑跟随'}
+            rightText={rest.edit ? <span onClick={rest.remove(rest.nickname)}>取消跟随</span> : ''}
         />
         <div styleName="tip">
             选择跟随之前请仔细阅读<span styleName="agreement">《跟随协议》</span>
@@ -14,32 +21,52 @@ export default CSSModules(() => (
         <div styleName="action">
             <Flex styleName="line">
                 <Flex.Item styleName="left">
-                    跟随方式
-                </Flex.Item>
-                <Flex.Item styleName="right">
-                    <div styleName="btn1">固定手数跟随</div>
-                </Flex.Item>
-            </Flex>
-            <Flex styleName="line">
-                <Flex.Item styleName="left">
-                </Flex.Item>
-                <Flex.Item styleName="right">
-                    <p styleName="text">无论交易员下单多少，您都按选择的固定手数跟随，最小1手</p>
-                </Flex.Item>
-            </Flex>
-            <Flex styleName="line">
-                <Flex.Item styleName="left">
-                    跟随手数
+                    跟随对象
                 </Flex.Item>
                 <Flex.Item>
-                    <Flex styleName="right">
-                        <Flex.Item styleName="choose-item">1手</Flex.Item>
-                        <Flex.Item styleName="choose-item-active">1手</Flex.Item>
-                        <Flex.Item styleName="choose-item">1手</Flex.Item>
-                    </Flex>
+                    {rest.nickname}
                 </Flex.Item>
             </Flex>
-            <Button styleName="submit">确定</Button>
+            <Ways/>
+            <Direct/>
+            {rest.way === "固定手数" ? <Nums/>
+                : <Multiple/>
+            }
+            <Button styleName="submit" onClick={rest.submit}>确定</Button>
         </div>
     </div>
-),styles)
+)
+
+const mapStateToProps = state => ({
+    way: state.followEdit.way,
+    nickname: state.followEdit.nickname,
+    edit: state.followEdit.edit,
+})
+
+const mapDispatchToProps = dispatch => ({
+    submit: () => {
+        Toast.loading('操作中', 0)
+        dispatch({
+            type: 'followEdit/follow'
+        })
+    },
+    remove: nickname => () => {
+        Modal.alert('取消跟随?', '确定取消跟随"' + nickname + '"吗？', [
+            {
+                text: '取消', onPress: () => {
+                }
+            },
+            {
+                text: '确定', onPress: () => {
+                    Toast.loading('操作中', 0)
+                    dispatch({
+                        type: 'followEdit/removeFollow'
+                    })
+                }
+            }
+        ])
+
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CSSModules(Edit, styles))

@@ -17,7 +17,7 @@ const Service = () => (
                     <p onClick={() => {copyToClipboard('coincs')}}>
                         <img src={wxIcon} alt=""/>
                         微信：
-                        <span>coincs</span>
+                        <span>123</span>
                     </p>
                     <p onClick={() => {copyToClipboard('3087237833')}}>
                         <img src={qqIcon} alt=""/>

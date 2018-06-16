@@ -20,21 +20,21 @@ const Login = ({...rest}) => (
             <img styleName="logo-img" src={logo} alt=""/>
         </div>
         <div styleName="forms">
-            <Picker
-                cols={1}
-                data={rest.pickerData}
-                {...rest.form.getFieldProps('sev',{
-                    initialValue:[rest.choose.value]
-                })}>
-                <Flex  styleName="mod-form">
-                    <Flex.Item styleName="label-wrap">
-                        <label>类型</label>
-                    </Flex.Item>
-                    <Flex.Item>
-                        <input type="text" styleName="inp" value={rest.choose.label} readOnly/>
-                    </Flex.Item>
-                </Flex>
-            </Picker>
+            {/*<Picker*/}
+                {/*cols={1}*/}
+                {/*data={rest.pickerData}*/}
+                {/*{...rest.form.getFieldProps('sev',{*/}
+                    {/*initialValue:[rest.choose.value]*/}
+                {/*})}>*/}
+                {/*<Flex  styleName="mod-form">*/}
+                    {/*<Flex.Item styleName="label-wrap">*/}
+                        {/*<label>类型</label>*/}
+                    {/*</Flex.Item>*/}
+                    {/*<Flex.Item>*/}
+                        {/*<input type="text" styleName="inp" value={rest.choose.label} readOnly/>*/}
+                    {/*</Flex.Item>*/}
+                {/*</Flex>*/}
+            {/*</Picker>*/}
             <Flex  styleName="mod-form">
                 <Flex.Item styleName="label-wrap">
                     <label>账号</label>
@@ -118,7 +118,8 @@ const mapDispatchToProps = (dispatch, props) => ({
                 let value = props.form.getFieldsValue();
                 dispatch({
                     type: 'login/LoginIn',
-                    values: {account: value.account, password: value.password, sev: value.sev[0]},
+                    // values: {account: value.account, password: value.password, sev: value.sev[0]},
+                    values: {account: value.account, password: value.password},
                 });
             } else {
                 const errors = Object.values(error);

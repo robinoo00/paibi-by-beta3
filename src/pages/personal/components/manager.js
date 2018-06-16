@@ -7,6 +7,7 @@ import icon4 from '../images/icon4.png';
 import icon5 from '../images/icon5.png';
 import icon6 from '../images/icon6.png';
 import router from 'umi/router'
+import {Toast} from 'antd-mobile'
 
 const list = [
     {icon:icon1,text:'跟随管理',url:'followList'},
@@ -22,7 +23,7 @@ const Manager = () => (
         <div styleName="manager">
             <ul styleName="ul">
                 {list.map(item => (
-                    <li key={item.text} onClick={() => {router.push(item.url)}}>
+                    <li key={item.text} onClick={() => {if(item.url != '#'){router.push(item.url)}else{Toast.info('暂未开放')}}}>
                         <img src={item.icon} alt=""/>
                         <p>{item.text}</p>
                     </li>

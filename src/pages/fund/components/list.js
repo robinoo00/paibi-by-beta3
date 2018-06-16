@@ -24,13 +24,13 @@ class FundList extends React.Component {
     render() {
         const {...rest} = this.props;
         return (
-            <div>
+            <div className="fund-list">
                 {rest.list.map((item, index) => (
                     <Item
                         key={"fund_list_" + index}
-                        extra={<div><p style={{fontSize: '.16rem',color:item.金额 > 0 ? '#E34C4D' : '#01B28E'}}>{item.金额}</p><p>账号:{item.账号}</p></div>}
-                    ><p style={{fontSize: '.16rem', color: '#999'}}>{item.出入金方向}</p>
-                        <Brief style={{fontSize: '.12rem'}}>{item.出入金日期.slice(0,10)}</Brief></Item>
+                        extra={<div><p className={item.金额 > 0 ? 'up-color' : 'down-color'} style={{fontSize: '.16rem'}}>{new Number(item.金额).toFixed(2)}</p><p>账号:{item.账号}</p></div>}
+                    ><p style={{fontSize: '.16rem', color: '#999'}}>{item.类型}</p>
+                        <Brief style={{fontSize: '.12rem'}}>{item.日期}</Brief></Item>
                 ))}
                 <NoMore nomore={rest.nomore}/>
             </div>

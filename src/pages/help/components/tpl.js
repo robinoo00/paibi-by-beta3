@@ -27,7 +27,7 @@ class Help extends React.Component{
         return(
             <div>
                 <Header
-                    title={'客服中心'}
+                    title={'帮助中心'}
                     leftCallBack={() => {router.goBack()}}
                     rightText={<a href={"tel:"+config.SERVICE_TEL}><img alt={""} style={{width:'.2rem'}} src={icon}/></a>}
                 />

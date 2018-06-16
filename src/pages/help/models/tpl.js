@@ -24,7 +24,7 @@ export default {
 
     effects: {
         * getList({page = 1}, {call, put,select}) {
-            const {data} = yield call(DiscoverServices.getList, {type: '客服中心', page: page, pageSize: 10})
+            const {data} = yield call(DiscoverServices.getList, {type: '常见问题', page: page, pageSize: 10})
             loading = false;
             if(data){
                 yield put({

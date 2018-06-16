@@ -24,7 +24,7 @@ export default {
 
     effects: {
         * getList({page = 1}, {call, put}) {
-            const {data} = yield call(DiscoverServices.getList, {type: '新手指引', page: page, pageSize: 10})
+            const {data} = yield call(DiscoverServices.getList, {type: '风险提示', page: page, pageSize: 10})
             loading = false;
             if(data){
                 yield put({

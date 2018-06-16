@@ -10,13 +10,6 @@ import {Toast} from 'antd-mobile'
 const Example = ({form,account,submit}) => {
     return (
         <div>
-            {/*<InputItem*/}
-                {/*defaultValue={'0.00元'}*/}
-                {/*editable={false}*/}
-            {/*>*/}
-                {/*账户余额：*/}
-            {/*</InputItem>*/}
-            {/*<WhiteSpace size={'lg'}/>*/}
             <InputItem
                 {...form.getFieldProps('account',{
                     initialValue:account
@@ -25,17 +18,6 @@ const Example = ({form,account,submit}) => {
             >
                 账号
             </InputItem>
-            {/*<InputItem*/}
-                {/*{...form.getFieldProps('aliAccount',{*/}
-                    {/*initialValue:'',*/}
-                    {/*rules:[{*/}
-                        {/*required:true,message:'请输入支付宝账号'*/}
-                    {/*}]*/}
-                {/*})}*/}
-                {/*placeholder={'请输入支付宝账号'}*/}
-            {/*>*/}
-                {/*支付宝账号*/}
-            {/*</InputItem>*/}
             <InputItem
                 {...form.getFieldProps('money',{
                     initialValue:'',
@@ -60,19 +42,13 @@ const Example = ({form,account,submit}) => {
                 <p>目前云闪付支持单卡单笔5000单日2万</p>
                 <p>金额请与云闪付支付时金额一致</p>
             </div>
-            {/*<div styleName="mod-prompt">*/}
-                {/*<p styleName="txt-center">到账时间</p>*/}
-                {/*<p> 08:30-17:30<span styleName="fr">(1小时内到账)</span></p>*/}
-                {/*<p>17:30以后<span styleName="fr">(次日09:30前到账)</span></p>*/}
-                {/*<p>如急需到账，请电话<a styleName="txt-blue" href={"tel:"+config.SERVICE_TEL}>联系客服</a>。</p>*/}
-            {/*</div>*/}
         </div>
     );
 };
 
 const mapStateToProps = state => ({
     headerText:state.pay.headerText,
-    account:localStorage.getItem(config.ACCOUNT) ? state.personal.data.账号 : sessionStorage.getItem(config.ACCOUNT),
+    account:localStorage.getItem(config.ACCOUNT),
 })
 
 const mapDispatchToProps = (dispatch,props) => ({

@@ -19,7 +19,7 @@ export default {
 
     effects: {
        *checkData({},{call,put,select}){
-           const data = yield select(state => state.personal.data);
+           const data = yield select(state => state.personal.info);
            if(data.length === 0){
                yield put({
                    type:'personal/getUserInfo'

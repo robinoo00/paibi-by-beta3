@@ -13,11 +13,11 @@ const Header = ({info}) => (
                 </div>
                 <div styleName="switch-wrap">
                     <div styleName="account-type">
-                        模拟盘账户
+                        实盘账户
                     </div>
-                    <div styleName="switch-btn">
-                        切换至实盘账户
-                    </div>
+                    {/*<div styleName="switch-btn">*/}
+                        {/*切换至模拟账户*/}
+                    {/*</div>*/}
                 </div>
             </div>
             {/*<div>*/}

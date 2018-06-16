@@ -24,7 +24,7 @@ class Help extends React.Component{
         return(
             <div>
                 <Header
-                    title={'新手指引'}
+                    title={'风险提示'}
                     leftCallBack={() => {router.goBack()}}
                 />
                 <WhiteSpace size={"md"}/>

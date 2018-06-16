@@ -10,7 +10,7 @@ const Links = () => (
                 联系客服
                 <img src={icon} alt=""/>
             </li>
-            <li>风险提示</li>
+            <li onClick={() => router.push('guide')}>风险提示</li>
             <li onClick={() => router.push('help')}>帮助中心</li>
             <li onClick={() => router.push('myInfo')}>账户设置</li>
         </ul>

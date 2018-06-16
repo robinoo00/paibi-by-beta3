@@ -8,20 +8,61 @@ let loading = false;
 export default {
     namespace: 'tradeList',
     state: {
-        nav_index: 'hold',
-        position_list: [],
-        deal_list: [],
-        undeal_list: [],
-        earn: 0,
+        tabs: [
+            {
+                title: '持仓',
+                choose: true,
+                list_name: 'position_list',
+                action: TradeListServices.getPositionList,
+                pageSize: 30
+            },
+            {title: '成交', choose: false, list_name: 'deal_list', action: TradeListServices.getDealList, pageSize: 30},
+            {
+                title: '未成交',
+                choose: false,
+                list_name: 'undeal_list',
+                action: TradeListServices.getUnDealList,
+                pageSize: 30
+            },
+            {
+                title: '历史',
+                choose: false,
+                list_name: 'history_list',
+                action: TradeListServices.getHistoryList,
+                pageSize: 30
+            },
+            {title: '平仓', choose: false, list_name: 'ping_list', action: TradeListServices.getPingList, pageSize: 30},
+        ],
+        earn: 0,//总浮动盈亏
+        position_list: {
+            list: [],
+            page: 0,
+            nomore: false,
+            empty: false
+        },
+        deal_list: {
+            list: [],
+            page: 0,
+            nomore: false,
+            empty: false
+        },
+        undeal_list: {
+            list: [],
+            page: 0,
+            nomore: false,
+            empty: false
+        },
         history_list: {
-            list:[],
-            page:0,
-            nomore:false
+            list: [],
+            page: 0,
+            nomore: false,
+            empty: false
         },
         ping_list: {
-            list:[],
-            page:0,
-            nomore:false
+            list: [],
+            page: 0,
+            nomore: false,
+            empty: false
         },
     },
     subscriptions: {
@@ -37,16 +78,17 @@ export default {
     },
 
     effects: {
-        * order({direction, code, num}, {call}) {
+        * order({direction, code, num}, {call, put}) {
             const post_data = {
                 symbol: code,
                 Buysell: direction,
                 Qty: num,
-                Price:0,
+                Price: 0,
                 Ordertype: "市价"
             }
             const {data} = yield call(TradeListServices.order, post_data);
-            if(data){
+            window.hideAll();
+            if (data) {
                 if (data.信息 === 'api error') {
                     Toast.info('交易失败');
                 } else {
@@ -54,7 +96,7 @@ export default {
                 }
             }
         },
-        * ping({direction,code}, {put, call, select}) {
+        * ping({direction, code}, {put, call, select}) {
             const {data} = yield call(TradeListServices.getOffect, {symbol: code});
             if (data) {
                 if (data.手数 === 0) {
@@ -63,9 +105,9 @@ export default {
                 } else {
                     yield put({
                         type: 'order',
-                        direction: direction === 0 ? 1 : 0,
-                        num:data.手数,
-                        code:code
+                        direction: direction === 0 ? "卖出" : "买入",
+                        num: data.手数,
+                        code: code
                     })
                 }
             } else {
@@ -74,161 +116,134 @@ export default {
             }
 
         },
-        * getPositionList({}, {call, put}) {
-            const {data} = yield call(TradeListServices.getPositionList, {});
-            if(data != '' && data.data.length !=0){
+        * getList({page = 1}, {call, put, select}) {
+            const tabs = yield select(state => state.tradeList.tabs);
+            const choose_tab = tabs.filter(item => item.choose)[0];
+            const action = choose_tab.action;
+            const {data} = yield call(action, {page: page});
+            loading = false;
+            if (data != '') {
+                yield put({
+                    type: 'assignList',
+                    data: data.data,
+                    page: page
+                })
+            }
+        },
+        //为了获取浮动盈亏和定时器
+        * getPositionList({forEarn = false}, {put, call}) {
+            const {data} = yield call(TradeListServices.getPositionList, {})
+            if (data) {
+                const get_data = data.data;
                 yield put({
                     type: 'assignPositionList',
-                    data: data.data
+                    data: get_data
                 })
-            }
-        },
-        * getDealList({}, {call, put}) {
-            const {data} = yield call(TradeListServices.getDealList, {});
-            if(data){
-                yield put({
-                    type: 'assignDealList',
-                    data: data.data
-                })
-            }
-        },
-        * getUnDealList({}, {call, put}) {
-            const {data} = yield call(TradeListServices.getUnDealList, {});
-            console.log(data);
-            if(data){
-                yield put({
-                    type: 'assignUnDealList',
-                    data: data.data
-                })
-            }
-        },
-        * getHistoryList({page = 1}, {call, put}) {
-            const {data} = yield call(TradeListServices.getHistoryList, {page: page});
-            loading = false;
-            yield put({
-                type: 'assignHistoryList',
-                data: data.data,
-                page: page
-            })
-        },
-        * LoadMoreHistory({},{put,select}){
-            if(!loading){
-                const page = yield select(state => state.tradeList.history_list.page);
-                const nomore = yield select(state => state.tradeList.history_list.nomore);
-                if(!nomore){
+                if(forEarn){
+                    let earn = 0;
+                    for (let item of get_data) {
+                        earn += item['浮动盈亏'];
+                    }
                     yield put({
-                        type:'getHistoryList',
-                        page:page + 1
+                        type: 'assignEarn',
+                        value: earn
+                    })
+                }
+            }
+        },
+        * LoadMore({}, {put, select}) {
+            if(!loading){
+                const tabs = yield select(state => state.tradeList.tabs);
+                const choose_tab = tabs.filter(item => item.choose)[0];
+                const list = yield select(state => state.tradeList[choose_tab['list_name']]);
+                const page = list.page;
+                const nomore = list.nomore;
+                if (!nomore) {
+                    yield put({
+                        type: 'getList',
+                        page: page + 1
                     })
                 }
                 loading = true;
             }
         },
-        * getPingList({page = 1}, {call, put}) {
-            const {data} = yield call(TradeListServices.getPingList, {page: page});
-            loading = false;
-            yield put({
-                type: 'assignPingList',
-                data: data.data,
-                page: page
-            })
-        },
-        * LoadMorePing({},{put,select}){
-            if(!loading){
-                const page = yield select(state => state.tradeList.ping_list.page);
-                const nomore = yield select(state => state.tradeList.ping_list.nomore);
-                if(!nomore){
-                    yield put({
-                        type:'getPingList',
-                        page:page + 1
-                    })
-                }
-                loading = true;
-            }
-        }
     },
 
     reducers: {
-        assignPingList(state, {data, page}) {
-            console.log(data);
-            let nomore = false;
-            if(data.length === 0 || data.length < 30){
-                nomore = true;
-            }
-            if(page === 1){
-                return {
-                    ...state,
-                    ping_list:{
-                        list:[...data],
-                        page:1,
-                        nomore:nomore
-                    }
-                }
-            }else{
-                return {
-                    ...state,
-                    ping_list:{
-                        list:[...state.ping_list.list,...data],
-                        page:page,
-                        nomore:nomore
-                    }
-                }
-            }
-        },
-        assignHistoryList(state, {data, page}) {
-            let nomore = false;
-            if(data.length === 0 || data.length < 30){
-                nomore = true;
-            }
-            if(page === 1){
-                return {
-                    ...state,
-                    history_list:{
-                        list:[...data],
-                        page:1,
-                        nomore:nomore
-                    }
-                }
-            }else{
-                return {
-                    ...state,
-                    history_list:{
-                        list:[...state.history_list.list,...data],
-                        page:page,
-                        nomore:nomore
-                    }
-                }
-            }
-        },
-        assignDealList(state, {data}) {
-            return {
-                ...state,
-                deal_list: [...data]
-            }
-        },
-        assignUnDealList(state, {data}) {
-            return {
-                ...state,
-                undeal_list: [...data]
-            }
-        },
         assignPositionList(state, {data}) {
-            let earn = 0;
-            data.map(item => {
-                earn += item['浮动盈亏']
-            })
             const list = JSON.parse(sessionStorage.getItem(config.K_DATA_LIST));
             let k_item;
             data.map(item => {
                 k_item = list.filter(item2 => item2['合约'] === item['合约']);
                 item['当前价'] = k_item.length === 0 ? 0 : k_item[0]['最新价'];
             })
+            let position_list = state.position_list;
+            position_list['list'] = data;
+            position_list['nomore'] = true;
             return {
                 ...state,
-                position_list: [...data],
-                earn: earn
+                position_list: position_list
             }
         },
+        assignEarn(state, {value}) {
+            return {
+                ...state,
+                earn: value
+            }
+        },
+        assignTabs(state, {choose_index}) {
+            const tabs = state.tabs;
+            tabs.map((item, index) => {
+                if (index === choose_index) {
+                    item['choose'] = true;
+                } else {
+                    item['choose'] = false;
+                }
+            })
+            return {
+                ...state,
+                tabs: tabs
+            }
+        },
+        assignList(state, {data, page}) {
+            const tabs = state.tabs;
+            const choose_tab = tabs.filter(item => item.choose)[0];
+            const list_name = choose_tab['list_name'];
+            const pageSize = choose_tab['pageSize'];
+            let nomore = false, empty = false;
+            if (data.length === 0) {
+                empty = true;
+            }
+            if (data.length === 0 || data.length < pageSize) {
+                nomore = true;
+            }
+            //如果是持仓单独处理
+            if (list_name === 'position_list') {
+                const list = JSON.parse(sessionStorage.getItem(config.K_DATA_LIST));
+                let k_item;
+                data.map(item => {
+                    k_item = list.filter(item2 => item2['合约'] === item['合约']);
+                    item['当前价'] = k_item.length === 0 ? 0 : k_item[0]['最新价'];
+                })
+            }
+            if (page === 1) {
+                state[list_name] = {
+                    list: [...data],
+                    page: 1,
+                    nomore: nomore,
+                    empty: empty
+                }
+            } else {
+                state[list_name] = {
+                    list: [...state[list_name].list, ...data],
+                    page: page,
+                    nomore: nomore
+                }
+            }
+            return {
+                ...state,
+            }
+        }
     },
 
 };

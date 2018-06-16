@@ -5,7 +5,8 @@ export default {
     state:{
         info:{
             持卡人:'',
-            可用资金:0
+            可用资金:0,
+            empty:true
         }
     },
     subscriptions:{},
@@ -13,7 +14,8 @@ export default {
         assignInfo(state,{data}){
             return{
                 ...state,
-                info:data
+                info:data,
+                empty:false
             }
         }
     },

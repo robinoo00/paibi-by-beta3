@@ -24,7 +24,7 @@ const Example = ({data,loginOut}) => {
             </List>
             <List style={{marginTop: '.1rem'}}>
                 <Item
-                    extra={data.账号}
+                    extra={data.帐号}
                     // arrow={'horizontal'}
                 >账号</Item>
                 <Item
@@ -44,17 +44,21 @@ const Example = ({data,loginOut}) => {
             </List>
             <List style={{marginTop: '.1rem'}}>
                 <Item
-                    extra={data.银行卡号}
-                    // arrow={'horizontal'}
-                >我的银行卡</Item>
-                <Item
-                    extra={data.持卡人}
-                    // arrow={'horizontal'}
-                >持卡人</Item>
-                <Item
-                    extra={data.绑定银行}
-                    // arrow={'horizontal'}
-                >银行</Item>
+                    onClick={() => {router.push('about')}}
+                arrow={'horizontal'}
+                >关于我们</Item>
+                {/*<Item*/}
+                    {/*extra={data.银行卡号}*/}
+                    {/*// arrow={'horizontal'}*/}
+                {/*>我的银行卡</Item>*/}
+                {/*<Item*/}
+                    {/*extra={data.持卡人}*/}
+                    {/*// arrow={'horizontal'}*/}
+                {/*>持卡人</Item>*/}
+                {/*<Item*/}
+                    {/*extra={data.绑定银行}*/}
+                    {/*// arrow={'horizontal'}*/}
+                {/*>银行</Item>*/}
             </List>
             <List style={{marginTop: '.1rem'}}>
                 <Item

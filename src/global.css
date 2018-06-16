@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'iconfont';  /* project id 692838 */
-    src: url('//at.alicdn.com/t/font_692838_w2yvvx17vij7zaor.eot');
-    src: url('//at.alicdn.com/t/font_692838_w2yvvx17vij7zaor.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_692838_w2yvvx17vij7zaor.woff') format('woff'),
-    url('//at.alicdn.com/t/font_692838_w2yvvx17vij7zaor.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_692838_w2yvvx17vij7zaor.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_692838_1iy92s43125.eot');
+    src: url('//at.alicdn.com/t/font_692838_1iy92s43125.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_692838_1iy92s43125.woff') format('woff'),
+    url('//at.alicdn.com/t/font_692838_1iy92s43125.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_692838_1iy92s43125.svg#iconfont') format('svg');
 }
 
 * {
@@ -42,6 +42,13 @@ dd, dl, legend, ol, td, th, ul, ul > li {
 em, i {
     font-style: normal;
 }
+
+.up-color{
+    color:#E34C4D;
+}
+.down-color{
+    color:#01B28E;
+ }
 
 .page-main {
     padding: 0 0 .5rem;
@@ -81,10 +88,14 @@ em, i {
 
 
 /*antd-mobile reset begin*/
+.fund-list .am-list-extra{
+    flex: 1 !important;
+}
+
 .tradelist-tab-wrap .am-tabs-tab-bar-wrap{
     position: fixed;
     width: 100%;
-    top: 51px;
+    top: 120px;
     z-index: 10;
 }
 .am-button::before{

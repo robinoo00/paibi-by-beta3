@@ -82,3 +82,14 @@ export function copyToClipboard (text) {
     }
     document.body.removeChild(textArea);
 }
+//随机颜色
+export function randomColor() {
+    // Math.floor(Math.random()*(max-min+1)+min);
+    // var r=Math.floor(Math.random()*256);
+    // var g=Math.floor(Math.random()*256);
+    // var b=Math.floor(Math.random()*256);
+    var r = Math.floor(Math.random()*(255-130+1)+130);
+    var g = Math.floor(Math.random()*(255-130+1)+130);
+    var b = Math.floor(Math.random()*(255-130+1)+130);
+    return "rgb("+r+','+g+','+b+")";
+}

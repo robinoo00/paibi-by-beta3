@@ -8,9 +8,9 @@ import router from 'umi/router'
 import {Flex} from 'antd-mobile'
 
 const list = [
-    {text:'金融咨询',icon:icon1,url:'news'},
-    {text:'进阶必备',icon:icon2,url:'guide'},
-    {text:'风险提示',icon:icon3},
+    {text:'金融资讯',icon:icon1,url:'news'},
+    {text:'进阶必备',icon:icon2,url:'knowledge'},
+    {text:'风险提示',icon:icon3,url:'guide'},
     {text:'跟随高手',icon:icon4,url:'leaders'},
 ]
 

@@ -2,9 +2,9 @@ import CSSModules from 'react-css-modules'
 import styles from '../styles/leader.less'
 import {TitleLine} from "./common";
 import crown1 from '../images/home_icon_crown1.png';
-import crown2 from '../images/home_icon_crown2.png';
-import crown3 from '../images/home_icon_crown3.png';
-import crown4 from '../images/home_icon_crown4.png';
+// import crown2 from '../images/home_icon_crown2.png';
+// import crown3 from '../images/home_icon_crown3.png';
+// import crown4 from '../images/home_icon_crown4.png';
 import apply from '../images/apply.png'
 
 const Leader = () => (

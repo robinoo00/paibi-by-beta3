@@ -1,4 +1,5 @@
 import * as PersonalServices from '../services/personal'
+import {Toast} from 'antd-mobile'
 
 export default {
     namespace:'personal',
@@ -27,6 +28,8 @@ export default {
                     type:'assignInfo',
                     data:data
                 })
+            }else{
+                Toast.info('获取个人信息失败')
             }
         }
     }

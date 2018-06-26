@@ -47,8 +47,8 @@ class News extends React.Component{
 
 const mapStateToProps = state => ({
     tabs:state.news.tabs,
-    list_info:state.news.list_info,
-    list_finance:state.news.list_finance,
+    list_info:state.news.list_info.list,
+    list_finance:state.news.list_finance.list,
 })
 
 const mapDispatchToProps = dispatch => ({

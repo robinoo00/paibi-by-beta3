@@ -9,7 +9,7 @@ let id = 0;
 class Detail extends React.Component {
     componentDidMount() {
         const {getPositionList} = this.props;
-        // id = setInterval(getPositionList, 1000);
+        id = setInterval(getPositionList, 1000);
     }
 
     componentWillUnmount() {

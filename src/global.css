@@ -98,6 +98,12 @@ em, i {
     top: 120px;
     z-index: 10;
 }
+.news-tab-wrap .am-tabs-tab-bar-wrap{
+    position: fixed;
+    width: 100%;
+    top: 50px;
+    z-index: 10;
+}
 .am-button::before{
     border:none !important;
 }
@@ -128,6 +134,7 @@ em, i {
 }
 .am-list-body{
     border: none !important;
+    background-color: #20212b !important;
 }
 .am-list-body::before{
     opacity: 0;

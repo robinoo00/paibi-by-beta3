@@ -74,7 +74,4 @@ const mapDispatchToProps = (dispatch,props) => ({
 })
 
 export default createForm({onFieldsChange:(props,fileds,all) => {
-    console.log(props);
-    console.log(fileds);
-    console.log(all);
 }})(connect(mapStateToProps,mapDispatchToProps)(CSSModules(Form,styles)))

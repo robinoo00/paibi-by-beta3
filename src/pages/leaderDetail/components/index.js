@@ -7,6 +7,8 @@ import TotalData from './total-data'
 import TradeList from './trade-list'
 import Loading from '../../../components/loading-antd/index'
 import CurrentTrade from './current-trade'
+import router from 'umi/router'
+import config from "../../../utils/config";
 
 const Index = ({...rest}) => (
     <div>
@@ -33,15 +35,19 @@ const Index = ({...rest}) => (
                 </Tabs>
             </div>
         </div>}
-        <div className={styles["follow-wrap"]}>
-            <div className={styles["follow-btn"]}>跟随高手</div>
-        </div>
+        {rest.data.是否被跟随 === "true" ? <div className={styles["follow-wrap"]}>
+            <div className={styles["follow-btn"]} onClick={() => {router.push({pathname:'followEdit',query:{fid:rest.data.跟随id,nickname:rest.data.昵称,from:config.FOLLOW_TYPE_EDIT}})}}>编辑跟随</div>
+        </div> : <div className={styles["follow-wrap"]}>
+            <div className={styles["follow-btn"]} onClick={() => {router.push({pathname:'followEdit',query:{id:rest.id,nickname:rest.data.昵称,from:config.FOLLOW_TYPE_ADD}})}}>跟随高手</div>
+        </div>}
+
     </div>
 )
 
 const mapStateToProps = state => ({
     data:state.leaderDetail.data,
-    tabs:state.leaderDetail.tabs
+    tabs:state.leaderDetail.tabs,
+    id:state.leaderDetail.id
 })
 
 const mapDispatchToProps = dispatch => ({

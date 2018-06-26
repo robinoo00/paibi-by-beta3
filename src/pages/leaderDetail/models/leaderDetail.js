@@ -76,7 +76,6 @@ export default {
     effects: {
         * getCurrentTrade({}, {select, call, put}) {
             const id = yield select(state => state.leaderDetail.id);
-            console.log(id);
             if (id != 0) {
                 const {data} = yield call(LeaderDetailServices.getCurrentTrade, {tid: id});
                 if (data && data.data.length != 0) {
@@ -89,7 +88,6 @@ export default {
         },
         * getList({id}, {put, call}) {
             const {data} = yield call(LeaderDetailServices.getList, {tid: id});
-            console.log(data);
             data.品种统计 = JSON.parse(data.品种统计);
             data.平仓记录 = JSON.parse(data.平仓记录);
             data.品种统计.map((item, index) => {

@@ -13,9 +13,9 @@ const list = [
     {icon:icon1,text:'跟随管理',url:'followList'},
     {icon:icon2,text:'投资报表',url:'#'},
     {icon:icon3,text:'银行卡包',url:'#'},
-    {icon:icon4,text:'我的推广',url:'#'},
+    {icon:icon4,text:'金融资讯',url:'news'},
     {icon:icon5,text:'资金明细',url:'fund'},
-    {icon:icon6,text:'消息中心',url:'#'},
+    {icon:icon6,text:'风险提示',url:'guide'},
 ];
 
 const Manager = () => (

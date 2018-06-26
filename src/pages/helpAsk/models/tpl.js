@@ -43,6 +43,8 @@ export default {
                 }
             }
             formData.append('key',localStorage.getItem(config.KEY));
+            formData.append('cid',localStorage.getItem(config.CID));
+            formData.append('account',localStorage.getItem(config.ACCOUNT));
             const {data} = yield call(TplServices.ask,formData)
             if(data){
                 if(data.状态){

@@ -35,9 +35,12 @@ const Item = ({item}) =>(
                     盈亏比例
                 </p>
             </Flex.Item>
-            <Flex.Item style={{marginTop:0}} onClick={(e) => {e.stopPropagation();router.push({pathname:'followEdit',query:{id:item.ID,nickname:item.昵称}})}}>
+            {item.是否被跟随 === "false" ? <Flex.Item style={{marginTop:0}} onClick={(e) => {e.stopPropagation();router.push({pathname:'followEdit',query:{id:item.ID,nickname:item.昵称,from:config.FOLLOW_TYPE_ADD}})}}>
                 <span styleName="follow-btn">跟随</span>
-            </Flex.Item>
+            </Flex.Item> : <Flex.Item style={{marginTop:0}} onClick={(e) => {e.stopPropagation();router.push({pathname:'followEdit',query:{fid:item.跟随id,nickname:item.昵称,from:config.FOLLOW_TYPE_EDIT}})}}>
+                <span styleName="follow-btn">编辑</span>
+            </Flex.Item>}
+
         </Flex>
     </div>
 )

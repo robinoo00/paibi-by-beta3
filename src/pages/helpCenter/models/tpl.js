@@ -12,7 +12,7 @@ export default {
     subscriptions: {},
 
     effects: {
-        * getList({page = 1}, {call, put,select}) {
+        * getList({page = 1}, {call, put}) {
             const {data} = yield call(TplServices.getList, {page: page, pagesize: 10})
             loading = false;
             if(data){

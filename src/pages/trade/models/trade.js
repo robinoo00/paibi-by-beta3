@@ -63,22 +63,9 @@ export default {
             } else {
                 window.toast('交易失败')
             }
-            //限价
-            // if (price_type === 2) {
-            //     const price = yield select(state => state.trade.limit_price);
-            //     post_data['price'] = price;
-            //     const {data} = yield call(TradeServices.limitOrder,post_data);
-            //     if(data){
-            //         if(data.状态){
-            //             window.toast(data.信息);
-            //         }else{
-            //             window.toast('交易失败');
-            //         }
-            //     }
-            // }
             Toast.hide();
         },
-        * ping({direction}, {put, call, select}) {
+        * ping({}, {put, call, select}) {
             const code = yield select(state => state.trade.code);
             const {data} = yield call(TradeServices.getOffect, {symbol: code});
             if (data) {
@@ -88,7 +75,7 @@ export default {
                 } else {
                     yield put({
                         type: 'order',
-                        direction: direction === 0 ? "卖出" : "买入",
+                        direction: data.方向 === "买入" ? "卖出" : "买入",
                         num:data.手数
                     })
                 }
@@ -106,7 +93,7 @@ export default {
                 list = JSON.parse(sessionStorage.getItem(config.K_DATA_LIST));
             }
             if (list && code) {
-                const code_name = list.filter(item => item.合约 === code)[0]['合约'];
+                const code_name = list.filter(item => item.合约 === code)[0]['名称'];
                 yield put({
                     type: 'assignList',
                     data: list

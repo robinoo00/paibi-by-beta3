@@ -23,22 +23,23 @@ const Nums = ({...rest}) => (
 )
 
 const mapStateToProps = state => ({
-    num: state.followEdit.num,
+    num: state.followEdit.way === "固定手数" ? state.followEdit.num : state.followEdit.num1,
 })
 
 const mapDispatchToProps = dispatch => ({
-    add: value => () => (
+    add: value => () => {
+        console.log(value);
         dispatch({
             type: 'followEdit/assignNum',
             value: parseInt(value) + 1
         })
-    ),
-    del: value => () => (
+    },
+    del: value => () => {
         dispatch({
             type: 'followEdit/assignNum',
             value: (parseInt(value) - 1) <= 1 ? 1 : parseInt(value) - 1
         })
-    ),
+    },
     change: e => {
         const value = e.target.value;
         dispatch({

@@ -3,7 +3,6 @@ import React from 'react'
 class Chart extends React.Component{
     componentDidMount(){
         const {data} = this.props;
-        console.log(data);
         const canvas = document.getElementById("data-chart");
         const context = canvas.getContext("2d");
         canvas.width = window.screen.width;

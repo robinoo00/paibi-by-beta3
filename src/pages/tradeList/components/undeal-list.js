@@ -20,7 +20,7 @@ const Example = ({list}) => {
                                 <Brief>￥{item['价格']}</Brief>
                             </div>}
                     >
-                        <p style={{fontSize:'.17rem'}}>{item['合约']} <span style={{fontSize:'.14rem'}}>（手续费:{item['手续费']}）</span></p>
+                        <p style={{fontSize:'.17rem'}}>{item['合约']} <span style={{fontSize:'.14rem'}}>（类型:{item['类型']}）</span></p>
                         <Brief style={{fontSize:'.1rem'}}>{item['时间']}</Brief>
                     </Item>
                     <WhiteSpace size={"sm"}/>

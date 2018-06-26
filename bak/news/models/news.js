@@ -1,6 +1,5 @@
 import * as NewsServices from '../services/news'
 import config from '../../../utils/config'
-import {ListView} from 'antd-mobile'
 
 let loading = false;
 
@@ -12,13 +11,11 @@ export default {
             {title: '财经要闻', name: 'list_finance', choose: false, type: '财经要闻'},
         ],
         list_info: {
-            data: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
             list: [],
             page: 0,
             nomore: false
         },
         list_finance: {
-            data: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
             list: [],
             page: 0,
             nomore: false
@@ -92,21 +89,24 @@ export default {
             const tabs = state.tabs;
             const choose_tab = tabs.filter(item => item.choose)[0];
             const name = choose_tab.name;
-            const list = state[name].list;
-            let new_list = [];
-            if(page === 1 && list.length != 0){
-                new_list = list;
-            }else{
-                new_list = list.concat(data)
-            }
-            state[name] = {
-                data: state[name]['data'].cloneWithRows(new_list),
-                list: new_list,
-                page: page,
-                nomore: nomore
-            }
-            return {
-                ...state,
+            if (page === 1) {
+                state[name] = {
+                    list: data,
+                    page: 1,
+                    nomore: nomore
+                }
+                return {
+                    ...state,
+                }
+            } else {
+                state[name] = {
+                    list: [...state.list, ...data],
+                    page: page,
+                    nomore: nomore
+                }
+                return {
+                    ...state,
+                }
             }
         }
     },

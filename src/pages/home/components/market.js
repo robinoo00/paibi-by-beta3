@@ -28,7 +28,7 @@ const Market = ({...rest}) => (
                         <p style={{color: '#bfbfbf'}}>{item.合约}</p>
                     </Flex.Item>
                     <Flex.Item styleName="money">
-                        <p>￥{item.最新价}</p>
+                        <p>{item.最新价}</p>
                         <p>现量:{item.现量}</p>
                     </Flex.Item>
                     <Flex.Item styleName="show">

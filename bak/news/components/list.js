@@ -1,11 +1,22 @@
 import CSSModules from 'react-css-modules'
-import styles from '../styles/news.less'
+import styles from '../styles/news2.less'
 import React from 'react'
 import {ListView} from 'antd-mobile'
-import {connect} from 'dva'
-import Loading from '../../../components/loading-nomore/bottom-tip'
+import ReactDOM from 'react-dom'
 
 class NewsList extends React.Component {
+    constructor(props) {
+        super(props);
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows(props.list),
+        };
+    }
+
+    componentDidMount() {
+        const {list} = this.props;
+    }
+
     renderRow(row) {
         return (
             <li>
@@ -26,24 +37,25 @@ class NewsList extends React.Component {
         )
     }
 
+    onEndReached = (event) => {
+        console.log('reach end', event);
+    }
+
     render() {
-        const hei = document.body.offsetHeight - 93;
-        const {list,loadMore} = this.props;
+        const hei = document.body.offsetHeight - 126;
         return (
             <div styleName="mod-news-wrap">
                 <div styleName="timecon">
                     <ul styleName="livecon">
                         <ListView
-                            dataSource={list.data}
+                            dataSource={this.state.dataSource}
                             renderRow={this.renderRow}
-                            onEndReached={loadMore}
+                            onEndReached={this.onEndReached}
                             onEndReachedThreshold={50}
                             onScroll={() => {
                                 console.log('scroll');
                             }}
                             scrollRenderAheadDistance={500}
-                            renderFooter={() => <Loading nomore={list.nomore}/>}
-                            // showsVerticalScrollIndicator={false}
                             style={{
                                 height: hei + 'px',
                                 overflow: 'auto',
@@ -56,17 +68,4 @@ class NewsList extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-
-})
-
-const mapDispatchToProps = dispatch => ({
-    loadMore:() => {
-        console.log('loadmore');
-        dispatch({
-            type:'news/loadMore',
-        })
-    },
-})
-
-export default connect(mapStateToProps,mapDispatchToProps)(CSSModules(NewsList, styles))
+export default CSSModules(NewsList, styles)

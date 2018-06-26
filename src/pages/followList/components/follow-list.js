@@ -34,7 +34,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     edit:item => () => {
         sessionStorage.setItem(config.FOLLOW_EDIT,JSON.stringify(item));
-        router.push({pathname:'followEdit',query:{id:item.被随ID,nickname:item.被随者昵称,from:'edit'}})
+        router.push({pathname:'followEdit',query:{fid:item.记录ID,nickname:item.被随者昵称,from:config.FOLLOW_TYPE_EDIT}})
     }
 })
 

@@ -6,36 +6,43 @@ import {connect} from 'dva'
 import Ways from './ways'
 import Direct from './direct'
 import Nums from './nums'
-import Multiple from './multiple'
 import {Flex} from 'antd-mobile'
+import React from 'react'
 
-const Edit = ({...rest}) => (
-    <div>
-        <Header
-            title={'编辑跟随'}
-            rightText={rest.edit ? <span onClick={rest.remove(rest.nickname)}>取消跟随</span> : ''}
-        />
-        <div styleName="tip">
-            选择跟随之前请仔细阅读<span styleName="agreement">《跟随协议》</span>
-        </div>
-        <div styleName="action">
-            <Flex styleName="line">
-                <Flex.Item styleName="left">
-                    跟随对象
-                </Flex.Item>
-                <Flex.Item>
-                    {rest.nickname}
-                </Flex.Item>
-            </Flex>
-            <Ways/>
-            <Direct/>
-            {rest.way === "固定手数" ? <Nums/>
-                : <Multiple/>
-            }
-            <Button styleName="submit" onClick={rest.submit}>确定</Button>
-        </div>
-    </div>
-)
+class Edit extends React.Component{
+    componentWillUnmount(){
+        const {init} = this.props;
+        init();
+    }
+    render(){
+        const {...rest} = this.props;
+        return(
+            <div>
+                <Header
+                    title={'编辑跟随'}
+                    rightText={rest.edit ? <span onClick={rest.remove(rest.nickname)}>取消跟随</span> : ''}
+                />
+                <div styleName="tip">
+                    选择跟随之前请仔细阅读<span styleName="agreement">《跟随协议》</span>
+                </div>
+                <div styleName="action">
+                    <Flex styleName="line">
+                        <Flex.Item styleName="left">
+                            跟随对象
+                        </Flex.Item>
+                        <Flex.Item>
+                            {rest.nickname}
+                        </Flex.Item>
+                    </Flex>
+                    <Ways/>
+                    <Direct/>
+                    <Nums/>
+                    <Button styleName="submit" onClick={rest.submit}>确定</Button>
+                </div>
+            </div>
+        )
+    }
+}
 
 const mapStateToProps = state => ({
     way: state.followEdit.way,
@@ -44,6 +51,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    init:() => {
+      dispatch({
+          type:'followEdit/init'
+      })
+    },
     submit: () => {
         Toast.loading('操作中', 0)
         dispatch({

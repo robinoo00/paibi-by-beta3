@@ -11,11 +11,11 @@ export default {
             return history.listen(({pathname,query}) => {
                 const key = localStorage.getItem(config.KEY);
                 const cid = localStorage.getItem(config.CID);
-                // if(pathname !== '/'&& pathname !== '/register' && pathname !== '/login' && pathname !== '/test'){
-                //     if(!key || !cid){
-                //         router.push('/login')
-                //     }
-                // }
+                if(pathname !== '/'&& pathname !== '/register' && pathname !== '/login' && pathname !== '/test'){
+                    if(!key || !cid){
+                        router.push('/login')
+                    }
+                }
             })
         },
     },

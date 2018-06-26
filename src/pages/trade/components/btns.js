@@ -12,7 +12,7 @@ let id;
 
 class Btns extends React.Component {
     componentWillReceiveProps() {
-        const {getPingNum, no_trade} = this.props;
+        const {no_trade} = this.props;
         if (no_trade) {
             clearInterval(id);
         }
@@ -20,7 +20,7 @@ class Btns extends React.Component {
 
     componentDidMount() {
         const {getPingNum} = this.props;
-        // id = setInterval(getPingNum, 1000)
+        id = setInterval(getPingNum, 1000)
     }
 
     componentWillUnmount() {
@@ -114,7 +114,6 @@ const mapDispatchToProps = (dispatch, props) => ({
         }
     },
     buy: (price=0) => () => {
-        console.log(price);
         window.loading('交易中...', 0);
         dispatch({
             type: 'trade/order',

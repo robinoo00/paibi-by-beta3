@@ -12,6 +12,22 @@ export default {
         draw_data:[]
     },
     reducers:{
+        init(state,{}){
+            state = {
+                type_list:['分时','1分钟','5分钟','15分钟','1小时','1日'],
+                type_choose:'分时',
+                data_0:[],
+                data_1:[],
+                data_2:[],
+                data_3:[],
+                data_4:[],
+                data_5:[],
+                draw_data:[]
+            };
+            return {
+                ...state
+            }
+        },
         assignTypeChoose(state,{value}){
           return {
               ...state,

@@ -5,15 +5,9 @@ import CSSModules from 'react-css-modules'
 import styles from '../styles/k.css'
 import config from "../../../utils/config";
 import {Flex} from 'antd-mobile'
+import {chooseKType} from '../../../utils/common'
 
 const draw = new Draw();
-var work = window.$.connection.myHub;
-window.$.connection.hub.url = 'http://101.132.17.195:3939/lcc';
-function chooseKType(code,type){
-    window.$.connection.hub.start().done(function () {
-        work.server.k线(code, type, "");
-    });
-}
 
 class K extends React.Component {
     componentDidMount() {
@@ -31,26 +25,42 @@ class K extends React.Component {
             draw.init();
             draw.loading();
             draw.eve();
-            if(data.length === 0){
-                // console.log('send');
-                chooseKType(sessionStorage.getItem(config.TRADE_CODE), "分时");
-            }else{
-                _this.draw(data);
-            }
+            chooseKType(sessionStorage.getItem(config.TRADE_CODE), "分时");
+            // if(data.length === 0){
+            //     console.log(111);
+            //     // console.log('send');
+            //     chooseKType(sessionStorage.getItem(config.TRADE_CODE), "分时");
+            // }else{
+            //     _this.draw(data);
+            // }
         })
     }
     componentWillReceiveProps(nextProps){
         const {draw_data} = nextProps;
         const old_draw_data = this.props.draw_data;
         // console.log('draw_data',draw_data);
+        // console.log('old_draw_data',old_draw_data);
+        // console.log('time',new Date().valueOf());
+        // console.log('draw_data',draw_data);
         // const neq = draw_data.toString() != old_draw_data.toString();
         if(draw_data.length != 0){
+            // if(old_draw_data.length != 0 && draw_data[0]['合约'] != old_draw_data[0]['合约']){
+            //     console.log('un');
+            //     draw.loading();
+            // }
+            // setTimeout(() => {
+            //     this.draw(draw_data);
+            // })
             this.draw(draw_data);
         }else{
             draw.loading();
         }
     }
-
+    componentWillUnmount(){
+        const {init} = this.props;
+        draw.loading();
+        init();
+    }
     draw(data) {
         const {type_choose} = this.props;
         const len = data.length;
@@ -146,6 +156,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    init: (data) => {
+        dispatch({
+            type: 'k/init',
+        })
+    },
     assignData: (data) => {
         dispatch({
             type: 'k/assignData',

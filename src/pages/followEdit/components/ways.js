@@ -33,7 +33,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     choose:value => () => (
         dispatch({
-            type:'followEdit/assignWay',
+            type:'followEdit/assignItem',
+            name:'way',
             value:value
         })
     )

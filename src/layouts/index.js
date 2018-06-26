@@ -9,8 +9,10 @@ import lconfig from './config'
 
 class Layout extends React.Component{
     componentWillMount() {//首页列表所需数据
-        const {assignList,autoLogin} = this.props;
-        autoLogin();
+        const {assignList,autoLogin,location} = this.props;
+        if(location.pathname != '/register' && location.pathname != '/login'){
+            autoLogin();
+        }
         window.work.client.GetFSData = function (data) {
             assignList(JSON.parse(data))
             sessionStorage.setItem(config.K_DATA_LIST, data);

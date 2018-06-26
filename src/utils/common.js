@@ -93,3 +93,20 @@ export function randomColor() {
     var b = Math.floor(Math.random()*(255-130+1)+130);
     return "rgb("+r+','+g+','+b+")";
 }
+/*
+* 获取URL参数
+* name 参数名
+* */
+export function getvl(name) {
+    var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");
+    if (reg.test(window.location.href)) return unescape(RegExp.$2.replace(/\+/g, " "));
+    return "";
+};
+//发送K线数据请求
+export function chooseKType(code,type ='分时'){
+    var work = window.$.connection.myHub;
+    window.$.connection.hub.url = 'http://101.132.17.195:3939/lcc';
+    window.$.connection.hub.start().done(function () {
+        work.server.k线(code, type, "");
+    });
+}

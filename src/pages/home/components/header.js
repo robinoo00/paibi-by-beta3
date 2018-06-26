@@ -1,6 +1,5 @@
 import CSSModules from 'react-css-modules'
 import styles from '../styles/header.less'
-import {Flex} from 'antd-mobile';
 import router from 'umi/router'
 import {connect} from 'dva'
 import React from 'react'

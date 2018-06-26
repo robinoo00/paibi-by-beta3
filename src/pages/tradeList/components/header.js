@@ -4,11 +4,13 @@ import styles from '../styles/header.less'
 import {Flex} from 'antd-mobile'
 import React from 'react'
 import {connect} from 'dva'
+import router from 'umi/router'
 
 class TradeListHeader extends React.Component{
     componentDidMount(){
         const {info,getUserInfo} = this.props;
-        if(!info.empty){
+        if(info.empty){
+            console.log(1);
             getUserInfo()
         }
     }
@@ -23,7 +25,7 @@ class TradeListHeader extends React.Component{
                             <span styleName="float-money">{info.可用资金}</span>
                         </h3>
                     </div>
-                    <div styleName="right">
+                    <div styleName="right" onClick={() => {router.push('payType')}}>
                         <span>充币</span>
                     </div>
                 </div>

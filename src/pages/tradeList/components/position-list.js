@@ -22,8 +22,8 @@ const PositionList = ({...rest}) => (
                         </div>
                     </div>
                     <div styleName="action">
-                        <span styleName={item.浮动盈亏 > 0 ? "up-num" : "down-num"}>{item.浮动盈亏}</span>
-                        <span onClick={rest.pingcang(item)}>平仓</span>
+                        {/*<span styleName={item.浮动盈亏 > 0 ? "up-num" : "down-num"}>{item.浮动盈亏}</span>*/}
+                        <span onClick={rest.pingcang(item)} styleName="ping-btn">平仓</span>
                     </div>
                 </div>
                 <Flex styleName="price">
@@ -40,8 +40,8 @@ const PositionList = ({...rest}) => (
                         <p>市场价</p>
                     </Flex.Item>
                     <Flex.Item styleName="price-item">
-                        <p>{item.平仓盈亏}</p>
-                        <p>平仓盈亏</p>
+                        <p styleName={item.浮动盈亏 > 0 ? "up-num" : "down-num"}>{item.浮动盈亏}</p>
+                        <p>浮动盈亏</p>
                     </Flex.Item>
                 </Flex>
             </div>
